@@ -4,6 +4,7 @@ import { _getInteractionFormEditForm } from "./interaction-forms/get-interaction
 import { _getInteractions } from "./interactions/get-interactions";
 import { _getBookFormSchema } from "./interaction-forms/get-schema";
 import { InteractionFormValue } from "@prisma/client";
+import { transformInteractions } from "./utils/transform-interaction";
 
 export type InteractionBookEditForm = ServerReponse<
   typeof _interactionBookEditForm
@@ -12,6 +13,9 @@ export type InteractionFormEditForm = ServerReponse<
   typeof _getInteractionFormEditForm
 >;
 export type InteractionFormEditForm = ServerReponse<typeof _saveInteraction>;
+export type IteractionListItem = NonNullable<
+  ReturnType<typeof transformInteractions>
+>[0];
 export type GetInteractions = ServerReponse<typeof _getInteractions>;
 export type GetBookFormSchema = ServerReponse<typeof _getBookFormSchema>;
 export type FieldValueById = { [id in number]: InteractionFormValue };

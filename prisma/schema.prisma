@@ -131,8 +131,12 @@ model InteractionFormFields {
   id                      Int                    @unique @default(autoincrement())
   title                   String // name, amount, feeds,
   dataType                String //string, text, number, auto-complete
+  format                  String?
+  unit                    String? // LB, KG, USD etc
+  currency                Boolean?               @default(false)
   autoCompleteFromFieldId Int?
   primaryField            Boolean                @default(false)
+  meta                    Json                   @db.Json
   deletedAt               DateTime?
   createdAt               DateTime               @default(now())
   updatedAt               DateTime               @updatedAt

@@ -26,5 +26,7 @@ export async function _getInteractions(bookId, query: GetInteractionsQuery) {
       },
     },
   });
-  return interactions;
+  return {
+    items: interactions,
+  };
 }
