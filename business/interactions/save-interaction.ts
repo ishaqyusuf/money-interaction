@@ -4,7 +4,6 @@ import { prisma } from "../db";
 import { GetBookFormSchema } from "../type";
 
 export async function _saveInteraction(data: GetBookFormSchema) {
-  const format = data.formSchema?.valueFormat;
   if (data.form.id) {
     return await prisma.interactions.update({
       where: {
@@ -13,7 +12,12 @@ export async function _saveInteraction(data: GetBookFormSchema) {
       data: {
         fieldValues: {
           createMany: {
-            data: Object.values(data.form.fieldValues),
+            data: Object.values(data.form.fieldValues).map((data) => {
+              return {
+                ...data,
+                meta: data.meta as any,
+              };
+            }),
             skipDuplicates: true,
           },
         },
@@ -28,7 +32,12 @@ export async function _saveInteraction(data: GetBookFormSchema) {
         ...data.form,
         fieldValues: {
           createMany: {
-            data: Object.values(data.form.fieldValues),
+            data: Object.values(data.form.fieldValues).map((data) => {
+              return {
+                ...data,
+                meta: data.meta as any,
+              };
+            }),
             skipDuplicates: true,
           },
         },

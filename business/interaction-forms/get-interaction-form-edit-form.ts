@@ -11,6 +11,7 @@ export async function _getInteractionFormEditForm(id) {
       formSchema: {
         include: {
           formFields: true,
+          displayLayouts: true,
         },
       },
     },

@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE `InteractionFormSchemaDisplayLayouts` ADD COLUMN `align` VARCHAR(191) NOT NULL DEFAULT 'left',
+    ADD COLUMN `layoutIndex` INTEGER NOT NULL DEFAULT 0,
+    ADD COLUMN `span` INTEGER NOT NULL DEFAULT 12,
+    ADD COLUMN `text` VARCHAR(191) NULL;

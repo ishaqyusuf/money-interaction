@@ -9,6 +9,22 @@ export async function _getInteractions(bookId, query: GetInteractionsQuery) {
       deletedAt: null,
       bookId,
     },
+    include: {
+      bookForm: {
+        include: {
+          formSchema: {
+            include: {
+              displayLayouts: true,
+            },
+          },
+        },
+      },
+      fieldValues: {
+        include: {
+          field: true,
+        },
+      },
+    },
   });
   return interactions;
 }

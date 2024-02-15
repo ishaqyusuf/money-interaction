@@ -5,7 +5,7 @@ import { InteractionFormEditForm } from "../type";
 
 export async function _saveInteractionForm(data: InteractionFormEditForm) {
   const {
-    formSchema: { formFields, ...formSchemaData },
+    formSchema: { formFields, displayLayouts, ...formSchemaData },
   } = data;
   if (!data.id) {
     const schem = await prisma.interactionFormSchemas.create({
@@ -15,6 +15,11 @@ export async function _saveInteractionForm(data: InteractionFormEditForm) {
         formFields: {
           createMany: {
             data: formFields,
+          },
+        },
+        displayLayouts: {
+          createMany: {
+            data: displayLayouts,
           },
         },
       },
@@ -36,6 +41,12 @@ export async function _saveInteractionForm(data: InteractionFormEditForm) {
         formFields: {
           createMany: {
             data: data.formSchema.formFields,
+            skipDuplicates: true,
+          },
+        },
+        displayLayouts: {
+          createMany: {
+            data: displayLayouts,
             skipDuplicates: true,
           },
         },
