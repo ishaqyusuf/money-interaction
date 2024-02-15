@@ -1,0 +1,154 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id               Int                @unique @default(autoincrement())
+  name             String
+  username         String
+  deletedAt        DateTime?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  interactionBooks InteractionBooks[]
+}
+
+model InteractionBooks {
+  id           Int                       @unique @default(autoincrement())
+  userId       Int
+  name         String // fish-pond, ishaq's pond 3 
+  slug         String                    @unique
+  deletedAt    DateTime?
+  createdAt    DateTime                  @default(now())
+  updatedAt    DateTime                  @updatedAt
+  interactions Interactions[]
+  forms        InteractionBookForms[]
+  user         Users                     @relation(fields: [userId], references: [id])
+  categories   InteractionBookCategory[]
+}
+
+model InteractionBookCategory {
+  id             Int               @unique @default(autoincrement())
+  bookCategoryId Int
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  deletedAt      DateTime?
+  bookCategory   BookCategory      @relation(fields: [bookCategoryId], references: [id])
+  book           InteractionBooks? @relation(fields: [bookId], references: [id])
+  bookId         Int?
+}
+
+model BookCategory {
+  id             Int                       @unique @default(autoincrement())
+  title          String                    @unique
+  createdAt      DateTime                  @default(now())
+  updatedAt      DateTime                  @updatedAt
+  deletedAt      DateTime?
+  bookCategories InteractionBookCategory[]
+}
+
+model InteractionBookForms {
+  id               Int                    @unique @default(autoincrement())
+  formSchemaId     Int
+  bookId           Int
+  deletedAt        DateTime?
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @updatedAt
+  interactionBooks InteractionBooks       @relation(fields: [bookId], references: [id])
+  formSchema       InteractionFormSchemas @relation(fields: [formSchemaId], references: [id])
+  interactions     Interactions[]
+}
+
+model SchemaRelations {
+  id        Int       @unique @default(autoincrement())
+  schemaId  Int
+  relatedId Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
+
+model InteractionFormSchemas {
+  id             Int                       @unique @default(autoincrement())
+  title          String // feed booking, petrol, feeds collected, worker's salary
+  description    String?                   @db.LongText
+  valueFormat    String?
+  meta           Json                      @db.Json
+  publishedAt    DateTime?                 @db.Timestamp(0)
+  createdAt      DateTime                  @default(now())
+  updatedAt      DateTime                  @updatedAt
+  deletedAt      DateTime?
+  bookForms      InteractionBookForms[]
+  formFields     InteractionFormFields[]
+  formCategories InteractionFormCategory[]
+}
+
+model InteractionFormCategory {
+  id             Int                    @unique @default(autoincrement())
+  formSchemaId   Int
+  formCategoryId Int
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+  deletedAt      DateTime?
+  category       FormCategory?          @relation(fields: [formCategoryId], references: [id])
+  formSchema     InteractionFormSchemas @relation(fields: [formSchemaId], references: [id])
+}
+
+model FormCategory {
+  id             Int                       @unique @default(autoincrement())
+  title          String
+  createdAt      DateTime                  @default(now())
+  updatedAt      DateTime                  @updatedAt
+  deletedAt      DateTime?
+  formCategories InteractionFormCategory[]
+}
+
+model InteractionFormFields {
+  id                      Int                    @unique @default(autoincrement())
+  title                   String // name, amount, feeds,
+  dataType                String //string, text, number, auto-complete
+  autoCompleteFromFieldId Int?
+  deletedAt               DateTime?
+  createdAt               DateTime               @default(now())
+  updatedAt               DateTime               @updatedAt
+  formSchema              InteractionFormSchemas @relation(fields: [formSchemaId], references: [id])
+  formSchemaId            Int
+  values                  InteractionFormValue[]
+}
+
+model InteractionFormValue {
+  id             Int                    @unique @default(autoincrement())
+  value          String // fish-pond interaction 
+  meta           Json                   @db.Json
+  interactionsId Int?
+  fieldId        Int?
+  deletedAt      DateTime?
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+  interaction    Interactions?          @relation(fields: [interactionsId], references: [id])
+  field          InteractionFormFields? @relation(fields: [fieldId], references: [id])
+}
+
+model SumFieldValues {
+  id Int @unique @default(autoincrement())
+}
+
+model Interactions {
+  id          Int                    @unique @default(autoincrement())
+  bookId      Int
+  bookFormId  Int
+  details     String // fish-pond interaction 
+  deletedAt   DateTime?
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
+  book        InteractionBooks       @relation(fields: [bookId], references: [id])
+  bookForm    InteractionBookForms   @relation(fields: [bookFormId], references: [id])
+  fieldValues InteractionFormValue[]
+}
