@@ -1,5 +1,5 @@
 import { ServerReponse } from "@/type";
-import { _interactionBookEditForm } from "./interaction-books/get-interaction-book-edit-form";
+import { _getInteractionBookEditForm } from "./interaction-books/get-interaction-book-edit-form";
 import { _getInteractionFormEditForm } from "./interaction-forms/get-interaction-form-edit-form";
 import { _getInteractions } from "./interactions/get-interactions";
 import { _getBookFormSchema } from "./interaction-forms/get-schema";
@@ -8,7 +8,7 @@ import { transformInteractions } from "./utils/transform-interaction";
 import { _getInteractionBooks } from "./interaction-books/get-interaction-books";
 
 export type InteractionBookEditForm = ServerReponse<
-  typeof _interactionBookEditForm
+  typeof _getInteractionBookEditForm
 >;
 export type InteractionFormEditForm = ServerReponse<
   typeof _getInteractionFormEditForm

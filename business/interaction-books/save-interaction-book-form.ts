@@ -12,11 +12,11 @@ export async function _saveInteractionBook(data: InteractionBookEditForm) {
     categories.map((c) => c.bookCategory)
   );
   const authId = await _authId();
-  const bookEdit = id
+  const bookEdit = !id
     ? await prisma.interactionBooks.create({
         data: {
           ...rest,
-          slug: await _slug(rest.title, id, prisma.interactionBooks),
+          slug: await _slug(rest.name, id, prisma.interactionBooks),
           user: {
             connect: {
               id: authId,
@@ -27,6 +27,12 @@ export async function _saveInteractionBook(data: InteractionBookEditForm) {
               data: categoryIds.map((bookCategoryId) => ({
                 bookCategoryId,
               })),
+            },
+          },
+          bookAccessList: {
+            create: {
+              userId: authId,
+              createForm: true,
             },
           },
         },
