@@ -11,28 +11,51 @@ datasource db {
 }
 
 model Users {
-  id               Int                @unique @default(autoincrement())
+  id               Int                     @unique @default(autoincrement())
   name             String
   username         String
   deletedAt        DateTime?
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
+  createdAt        DateTime                @default(now())
+  updatedAt        DateTime                @updatedAt
   interactionBooks InteractionBooks[]
+  bookAccessList   InteractionBookAccess[]
 }
 
 model InteractionBooks {
-  id           Int                       @unique @default(autoincrement())
-  userId       Int
-  name         String // fish-pond, ishaq's pond 3 
-  slug         String                    @unique
-  deletedAt    DateTime?
-  createdAt    DateTime                  @default(now())
-  updatedAt    DateTime                  @updatedAt
-  analytics    InteractionAnalytics[]
-  interactions Interactions[]
-  forms        InteractionBookForms[]
-  user         Users                     @relation(fields: [userId], references: [id])
-  categories   InteractionBookCategory[]
+  id             Int                       @unique @default(autoincrement())
+  userId         Int
+  name           String // fish-pond, ishaq's pond 3 
+  slug           String                    @unique
+  deletedAt      DateTime?
+  createdAt      DateTime                  @default(now())
+  updatedAt      DateTime                  @updatedAt
+  analytics      InteractionAnalytics[]
+  interactions   Interactions[]
+  forms          InteractionBookForms[]
+  user           Users                     @relation(fields: [userId], references: [id])
+  categories     InteractionBookCategory[]
+  bookAccessList InteractionBookAccess[]
+}
+
+model InteractionBookAccess {
+  id          Int                         @unique @default(autoincrement())
+  bookId      Int
+  userId      Int
+  createForm  Boolean?                    @default(false)
+  book        InteractionBooks            @relation(fields: [bookId], references: [id])
+  user        Users                       @relation(fields: [userId], references: [id])
+  permissions InteractionFormPermission[]
+}
+
+model InteractionFormPermission {
+  id                Int                    @unique @default(autoincrement())
+  bookAccessId      Int
+  bookFormId        Int
+  createInteraction Boolean?               @default(false)
+  editForm          Boolean?               @default(false)
+  deleteForm        Boolean?               @default(false)
+  bookAccess        InteractionBookAccess? @relation(fields: [bookAccessId], references: [id])
+  bookForm          InteractionBookForms?  @relation(fields: [bookFormId], references: [id])
 }
 
 model InteractionBookCategory {
@@ -56,15 +79,16 @@ model BookCategory {
 }
 
 model InteractionBookForms {
-  id               Int                    @unique @default(autoincrement())
+  id               Int                         @unique @default(autoincrement())
   formSchemaId     Int
   bookId           Int
   deletedAt        DateTime?
-  createdAt        DateTime               @default(now())
-  updatedAt        DateTime               @updatedAt
-  interactionBooks InteractionBooks       @relation(fields: [bookId], references: [id])
-  formSchema       InteractionFormSchemas @relation(fields: [formSchemaId], references: [id])
+  createdAt        DateTime                    @default(now())
+  updatedAt        DateTime                    @updatedAt
+  interactionBooks InteractionBooks            @relation(fields: [bookId], references: [id])
+  formSchema       InteractionFormSchemas      @relation(fields: [formSchemaId], references: [id])
   interactions     Interactions[]
+  permissions      InteractionFormPermission[]
 
   @@index([bookId])
 }
