@@ -4,6 +4,7 @@ import { prisma } from "../db";
 import { InteractionBookEditForm } from "../type";
 import { _saveInteractionCategories } from "../interaction-categories/save-interaction-categories";
 import { _authId } from "../auth/auth-session";
+import { _slug } from "../utils/server-utils";
 
 export async function _saveInteractionBook(data: InteractionBookEditForm) {
   let { id, slug, categories, userId, ...rest } = data;
@@ -15,12 +16,12 @@ export async function _saveInteractionBook(data: InteractionBookEditForm) {
     ? await prisma.interactionBooks.create({
         data: {
           ...rest,
+          slug: await _slug(rest.title, id, prisma.interactionBooks),
           user: {
             connect: {
               id: authId,
             },
           },
-          slug,
           categories: {
             createMany: {
               data: categoryIds.map((bookCategoryId) => ({

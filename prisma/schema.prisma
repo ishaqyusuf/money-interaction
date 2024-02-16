@@ -173,16 +173,17 @@ model InteractionFormValue {
 }
 
 model Interactions {
-  id          Int                    @unique @default(autoincrement())
-  bookId      Int
-  bookFormId  Int
-  details     String // fish-pond interaction 
-  deletedAt   DateTime?
-  createdAt   DateTime               @default(now())
-  updatedAt   DateTime               @updatedAt
-  book        InteractionBooks       @relation(fields: [bookId], references: [id])
-  bookForm    InteractionBookForms   @relation(fields: [bookFormId], references: [id])
-  fieldValues InteractionFormValue[]
+  id            Int                    @unique @default(autoincrement())
+  bookId        Int
+  bookFormId    Int
+  interactionId Int
+  details       String // fish-pond interaction 
+  deletedAt     DateTime?
+  createdAt     DateTime               @default(now())
+  updatedAt     DateTime               @updatedAt
+  book          InteractionBooks       @relation(fields: [bookId], references: [id])
+  bookForm      InteractionBookForms   @relation(fields: [bookFormId], references: [id])
+  fieldValues   InteractionFormValue[]
 
   @@index([bookId])
 }
