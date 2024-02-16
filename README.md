@@ -4,7 +4,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 Money-Interaction is an open source flexible and customizable SaaS platform designed to streamline form interactions for various financial management purposes. Whether you're managing a thrift system, tracking incoming payments, or organizing financial data, Money-Interaction provides the tools you need to create, customize, and analyze your forms effortlessly.
 
-## Money-Interaction
+## Features
 
 - Fluid Form Interaction: Create dynamic forms tailored to your specific requirements. Define fields, input types, and relationships between data effortlessly.
 - Customizable Output Formats: Configure the display output format for each form to suit your preferences and reporting needs.
