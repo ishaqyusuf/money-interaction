@@ -2,8 +2,8 @@
 
 import { prisma } from "../db";
 
-export async function _getInteractionFormEditForm(id) {
-  const form = await prisma.interactionBookForms.findUnique({
+export async function _getInteractionFormEditForm(id?) {
+  let form = await prisma.interactionBookForms.findUnique({
     where: {
       id: id || undefined,
     },
@@ -16,5 +16,13 @@ export async function _getInteractionFormEditForm(id) {
       },
     },
   });
+
+  if (!form)
+    form = {
+      formSchema: {
+        displayLayouts: [],
+        formFields: [],
+      },
+    } as any;
   return form;
 }

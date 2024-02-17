@@ -1,21 +1,36 @@
 "use server";
 
+import { _authId } from "../auth/auth-session";
 import { prisma } from "../db";
 
-export async function _getInteractionFormsList(bookId) {
-  const list = await prisma.interactionBookForms.findMany({
+export async function _getInteractionForms(bookSlug) {
+  const userId = await _authId();
+  const bookAccess = await prisma.interactionBookAccess.findFirst({
     where: {
-      bookId,
+      book: {
+        slug: bookSlug,
+      },
+      userId,
       deletedAt: null,
     },
     include: {
-      formSchema: {
-        select: {
-          title: true,
-          description: true,
+      permissions: {
+        include: {
+          bookForm: {
+            include: {
+              formSchema: true,
+            },
+            where: {
+              deletedAt: null,
+            },
+          },
+        },
+        where: {
+          deletedAt: null,
         },
       },
     },
   });
-  return list;
+  if (!bookAccess) throw Error();
+  return bookAccess;
 }

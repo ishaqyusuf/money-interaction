@@ -35,6 +35,8 @@ model InteractionBooks {
   user           Users                     @relation(fields: [userId], references: [id])
   categories     InteractionBookCategory[]
   bookAccessList InteractionBookAccess[]
+
+  @@index([createdAt, deletedAt, userId, slug])
 }
 
 model InteractionBookAccess {
@@ -42,15 +44,23 @@ model InteractionBookAccess {
   bookId      Int
   userId      Int
   createForm  Boolean?                    @default(false)
+  deletedAt   DateTime?
+  createdAt   DateTime                    @default(now())
+  updatedAt   DateTime                    @updatedAt
   book        InteractionBooks            @relation(fields: [bookId], references: [id])
   user        Users                       @relation(fields: [userId], references: [id])
   permissions InteractionFormPermission[]
+
+  @@index([createdAt, deletedAt, userId, bookId])
 }
 
 model InteractionFormPermission {
   id                Int                    @unique @default(autoincrement())
   bookAccessId      Int
   bookFormId        Int
+  deletedAt         DateTime?
+  createdAt         DateTime               @default(now())
+  updatedAt         DateTime               @updatedAt
   createInteraction Boolean?               @default(false)
   editForm          Boolean?               @default(false)
   deleteForm        Boolean?               @default(false)
@@ -153,10 +163,12 @@ model FormCategory {
 
 model InteractionFormFields {
   id                      Int                    @unique @default(autoincrement())
-  title                   String // name, amount, feeds,
+  label                   String // name, amount, feeds,
   dataType                String //string, text, number, auto-complete
   format                  String?
   unit                    String? // LB, KG, USD etc
+  span                    Int?                   @default(12)
+  defaultValue            String?
   currency                Boolean?               @default(false)
   autoCompleteFromFieldId Int?
   primaryField            Boolean                @default(false)

@@ -3,7 +3,7 @@
 import { prisma } from "../db";
 
 export async function _getInteractionBookEditForm(slug?: string | undefined) {
-  const form = await prisma.interactionBooks.findUnique({
+  let form = await prisma.interactionBooks.findUnique({
     where: {
       slug: slug || "-1",
     },
@@ -15,10 +15,9 @@ export async function _getInteractionBookEditForm(slug?: string | undefined) {
       },
     },
   });
-  type T = NonNullable<typeof form>;
   if (!form)
-    return {
+    form = {
       categories: [],
-    } as any as T;
+    } as any;
   return form;
 }
