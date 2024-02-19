@@ -16,6 +16,13 @@ export type InteractionFormEditForm = ServerResponse<
   typeof _getInteractionFormEditForm
 >;
 export type GetInteractionForms = ServerResponse<typeof _getInteractionForms>;
+export type FormFieldDataTypes =
+  | "default"
+  | "text"
+  | "number"
+  | "auto-complete"
+  | "date"
+  | "checkbox";
 export type SaveInteraction = ServerResponse<typeof _saveInteraction>;
 export type IteractionListItem = NonNullable<
   ReturnType<typeof transformInteractions>

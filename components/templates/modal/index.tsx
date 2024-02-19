@@ -115,6 +115,7 @@ function Header({ title, subtitle }: HeaderProps) {
 }
 interface FooterProps extends PrimitiveDivProps {
   onSubmit?;
+  onCancel?;
   submitText?: string;
   cancelBtn?: boolean;
   cancelText?: string;
@@ -122,6 +123,7 @@ interface FooterProps extends PrimitiveDivProps {
 function Footer({
   children,
   onSubmit,
+  onCancel,
   submitText = "Submit",
   cancelBtn,
   cancelText = "Cancel",
@@ -135,7 +137,14 @@ function Footer({
       {(onSubmit || cancelBtn) && (
         <div className="flex justify-end space-x-4">
           {cancelBtn && (
-            <Button onClick={() => modal?.close()}>{cancelText}</Button>
+            <Button
+              variant={"secondary"}
+              onClick={() => {
+                onCancel ? onCancel() : modal?.close();
+              }}
+            >
+              {cancelText}
+            </Button>
           )}
           {onSubmit && (
             <Button onClick={() => modal?.startTransition(onSubmit)}>

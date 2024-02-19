@@ -14,15 +14,16 @@ export async function _getInteractionForms(bookSlug) {
       deletedAt: null,
     },
     include: {
+      book: true,
       permissions: {
         include: {
           bookForm: {
             include: {
               formSchema: true,
             },
-            where: {
-              deletedAt: null,
-            },
+            // where: {
+            //   deletedAt: null,
+            // },
           },
         },
         where: {

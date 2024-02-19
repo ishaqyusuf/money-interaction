@@ -13,11 +13,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface Props<T> {
   label?;
   placeholder?;
   options?: T[];
+  className?: string;
   SelectItem?({ option }: { option: T });
   Item?({ option }: { option: T });
   valueKey?: keyof T;
@@ -34,6 +36,7 @@ export default function ControlledSelect<
   options,
   loader,
   SelectItem: SelItem,
+  className,
   valueKey = "value" as any,
   titleKey = "label" as any,
   Item,
@@ -61,7 +64,7 @@ export default function ControlledSelect<
     <FormField
       {...(props as any)}
       render={({ field }) => (
-        <FormItem className="">
+        <FormItem className={cn(className)}>
           {label && <FormLabel>{label}</FormLabel>}
           <FormControl>
             <Select onValueChange={field.onChange} defaultValue={field.value}>

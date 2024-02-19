@@ -4,7 +4,7 @@ import { GetInteractionForms } from "@/business/type";
 import { useModal } from "@/components/templates/modal/provider";
 import { PlusIcon } from "@radix-ui/react-icons";
 import React from "react";
-import CreateFormModal from "../_modals/_create-form-modal";
+import CreateFormModal from "../_modals/form-modal";
 
 interface Props {
   promise: any;
@@ -14,22 +14,24 @@ export default function PageClient({ promise }: Props) {
 
   return (
     <div>
-      <GridItem bookId={data.id} />
+      <GridItem data={data} />
     </div>
   );
 }
 
 interface GridItemProps {
   item?: GetInteractionForms["permissions"][0];
-  bookId;
+  data: GetInteractionForms;
 }
-function GridItem({ item, bookId }: GridItemProps) {
+function GridItem({ item, data }: GridItemProps) {
   const modal = useModal();
   if (!item)
     return (
       <button
         onClick={() => {
-          modal.openModal(<CreateFormModal bookId={bookId} />);
+          modal.openModal(
+            <CreateFormModal bookId={data.bookId} bookAccessId={data.id} />
+          );
         }}
         className="border rounded p-4 flex flex-col justify-center items-center"
       >

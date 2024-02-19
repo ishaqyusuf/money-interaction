@@ -12,7 +12,7 @@ import Modal from ".";
 interface ModalContextProps<T = any> {
   openModal: (content: ReactNode, type?: ModalType) => void;
   openSheet: (content: ReactNode, type?: ModalType) => void;
-  close: () => void;
+  close: (callBack?) => void;
   data: DataType & T;
   opened?: boolean;
   setShowModal;
@@ -38,10 +38,11 @@ export function ModalProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const close = () => {
+  const close = (callBack?) => {
     setShowModal(false);
     setTimeout(() => {
       setModalContent(null);
+      callBack && callBack();
     }, 300); // Adjust this timeout as per your transition duration
   };
 

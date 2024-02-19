@@ -1,28 +1,71 @@
 "use server";
 
 import { prisma } from "../db";
+import { FormFieldDataTypes } from "../type";
 
-export async function _getInteractionFormEditForm(id?) {
-  let form = await prisma.interactionBookForms.findUnique({
+export async function _getInteractionFormEditForm(
+  formPermissionId,
+  bookAccessId,
+  bookId
+) {
+  let form2 = await prisma.interactionFormPermission.findUnique({
     where: {
-      id: id || undefined,
+      id: formPermissionId || -1,
+      // bookAccessId: bookAccessId,
+      // bookFormId,
     },
     include: {
-      formSchema: {
+      bookForm: {
         include: {
-          formFields: true,
-          displayLayouts: true,
+          formSchema: {
+            include: {
+              formFields: true,
+              displayLayouts: true,
+            },
+          },
         },
       },
     },
   });
+  if (!form2)
+    form2 = {
+      bookAccessId,
+      // bookFormId,
+      deleteForm: true,
+      editForm: true,
+      createInteraction: true,
 
-  if (!form)
-    form = {
-      formSchema: {
-        displayLayouts: [],
-        formFields: [],
+      bookForm: {
+        bookId,
+        formSchema: {
+          meta: {},
+          displayLayouts: [],
+          formFields: [],
+        },
       },
     } as any;
-  return form;
+  // form.formSchema = form?.formSchema?.formFields?.map(
+  //   (field) => {
+  //     return {
+  //       ...field,
+  //       dataType: field.dataType as FormFieldDataTypes,
+  //     };
+  //   }
+  // );
+  if (!form2 || !form2.bookForm) throw Error();
+  return {
+    ...form2,
+    bookForm: {
+      ...form2?.bookForm,
+      formSchema: {
+        ...form2.bookForm?.formSchema,
+        formFields: form2.bookForm.formSchema.formFields.map((field) => {
+          return {
+            ...field,
+            dataType: field.dataType as FormFieldDataTypes,
+          };
+        }),
+      },
+    },
+  };
 }

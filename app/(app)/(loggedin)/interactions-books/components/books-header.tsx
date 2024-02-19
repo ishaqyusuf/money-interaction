@@ -2,7 +2,7 @@
 
 import { useModal } from "@/components/templates/modal/provider";
 import { Button } from "@/components/ui/button";
-import CreateInteractionBookModal from "../_modals/_create-modal";
+import CreateInteractionBookModal from "../_modals/book-modal";
 
 export function BooksHeader() {
   const modal = useModal();

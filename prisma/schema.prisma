@@ -55,17 +55,17 @@ model InteractionBookAccess {
 }
 
 model InteractionFormPermission {
-  id                Int                    @unique @default(autoincrement())
+  id                Int                   @unique @default(autoincrement())
   bookAccessId      Int
   bookFormId        Int
   deletedAt         DateTime?
-  createdAt         DateTime               @default(now())
-  updatedAt         DateTime               @updatedAt
-  createInteraction Boolean?               @default(false)
-  editForm          Boolean?               @default(false)
-  deleteForm        Boolean?               @default(false)
-  bookAccess        InteractionBookAccess? @relation(fields: [bookAccessId], references: [id])
-  bookForm          InteractionBookForms?  @relation(fields: [bookFormId], references: [id])
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+  createInteraction Boolean?              @default(false)
+  editForm          Boolean?              @default(false)
+  deleteForm        Boolean?              @default(false)
+  bookAccess        InteractionBookAccess @relation(fields: [bookAccessId], references: [id])
+  bookForm          InteractionBookForms  @relation(fields: [bookFormId], references: [id])
 }
 
 model InteractionBookCategory {
@@ -89,16 +89,16 @@ model BookCategory {
 }
 
 model InteractionBookForms {
-  id               Int                         @unique @default(autoincrement())
-  formSchemaId     Int
-  bookId           Int
-  deletedAt        DateTime?
-  createdAt        DateTime                    @default(now())
-  updatedAt        DateTime                    @updatedAt
-  interactionBooks InteractionBooks            @relation(fields: [bookId], references: [id])
-  formSchema       InteractionFormSchemas      @relation(fields: [formSchemaId], references: [id])
-  interactions     Interactions[]
-  permissions      InteractionFormPermission[]
+  id              Int                         @unique @default(autoincrement())
+  formSchemaId    Int
+  bookId          Int
+  deletedAt       DateTime?
+  createdAt       DateTime                    @default(now())
+  updatedAt       DateTime                    @updatedAt
+  interactionBook InteractionBooks            @relation(fields: [bookId], references: [id])
+  formSchema      InteractionFormSchemas      @relation(fields: [formSchemaId], references: [id])
+  interactions    Interactions[]
+  permissions     InteractionFormPermission[]
 
   @@index([bookId])
 }
@@ -172,6 +172,7 @@ model InteractionFormFields {
   currency                Boolean?               @default(false)
   autoCompleteFromFieldId Int?
   primaryField            Boolean                @default(false)
+  required                Boolean                @default(false)
   meta                    Json                   @db.Json
   deletedAt               DateTime?
   createdAt               DateTime               @default(now())
