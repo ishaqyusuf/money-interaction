@@ -9,7 +9,7 @@ import Modal from "@/components/templates/modal";
 import { Form } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import React, { useEffect } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray, useForm, useFormContext } from "react-hook-form";
 import FormFieldSlot from "../../_components/form-field-slot";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/common/icons";
@@ -17,6 +17,8 @@ import { useModal } from "@/components/templates/modal/provider";
 import FieldFormModal from "../field-form-modal";
 import { saveInteractionFormAction } from "../../_actions/save-interaction-form-action";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import DisplayLayout from "./display-layout";
 
 interface Props {
   id?;
@@ -25,6 +27,9 @@ interface Props {
   bookAccessId?;
   formPermissionId?;
 }
+
+export const useInteractionEditForm = () =>
+  useFormContext<InteractionFormEditForm>();
 export default function CreateFormModal({
   formPermissionId = null,
   bookAccessId,
@@ -83,7 +88,7 @@ export default function CreateFormModal({
         subtitle="Create a new Interaction Formdoc"
       />
       <Form {...form}>
-        <div className="grid gap-2">
+        <ScrollArea className="grid gap-2 min-h-max max-h-[50vh]">
           <ControlledInput
             control={form.control}
             name="bookForm.formSchema.title"
@@ -98,10 +103,10 @@ export default function CreateFormModal({
             placeholder="brief about form"
           />
           <div className="py-4">
-            <Tabs>
+            <Tabs defaultValue="fields">
               <TabsList>
-                <TabsTrigger value="fields"></TabsTrigger>
-                <TabsTrigger value="layout"></TabsTrigger>
+                <TabsTrigger value="fields">Form Fields</TabsTrigger>
+                <TabsTrigger value="layout">Display Layout</TabsTrigger>
               </TabsList>
               <TabsContent value="fields">
                 <Label className="mb-4 block py-2 border-b">Form Fields</Label>
@@ -132,10 +137,12 @@ export default function CreateFormModal({
                   <span>New Field</span>
                 </Button>
               </TabsContent>
-              <TabsContent value="layout"></TabsContent>
+              <TabsContent value="layout">
+                <DisplayLayout />
+              </TabsContent>
             </Tabs>
           </div>
-        </div>
+        </ScrollArea>
         <Modal.Footer onSubmit={submit} submitText="Save" />
       </Form>
     </Modal.Content>

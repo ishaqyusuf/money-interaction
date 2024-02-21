@@ -116,7 +116,7 @@ model InteractionFormSchemas {
   id             Int                                   @unique @default(autoincrement())
   title          String // feed booking, petrol, feeds collected, worker's salary
   description    String?                               @db.LongText
-  valueFormat    String?
+  type           String? //analytic, default 
   meta           Json                                  @db.Json
   publishedAt    DateTime?                             @db.Timestamp(0)
   createdAt      DateTime                              @default(now())

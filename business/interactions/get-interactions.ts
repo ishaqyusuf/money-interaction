@@ -27,6 +27,9 @@ export async function _getInteractions(bookSlug, query: GetInteractionsQuery) {
         },
       },
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
   return {
     items: interactions,

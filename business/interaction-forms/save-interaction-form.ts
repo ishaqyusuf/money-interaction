@@ -76,26 +76,35 @@ export async function _saveInteractionForm(data: InteractionFormEditForm) {
     //   },
     // });
   } else {
-    // await prisma.interactionFormSchemas.update({
-    //   where: {
-    //     id: data.formSchemaId,
-    //   },
-    //   data: {
-    //     ...data.formSchema,
-    //     meta: formSchemaData.meta as any,
-    //     formFields: {
-    //       createMany: {
-    //         data: data.formSchema.formFields as any,
-    //         skipDuplicates: true,
-    //       },
-    //     },
-    //     displayLayouts: {
-    //       createMany: {
-    //         data: displayLayouts,
-    //         skipDuplicates: true,
-    //       },
-    //     },
-    //   },
-    // });
+    const layouts = data.bookForm.formSchema.displayLayouts;
+    const newLayouts = layouts.filter((l) => !l.id);
+    const updateLayouts = layouts.filter((l) => l.id);
+    await prisma.interactionFormSchemas.update({
+      where: {
+        id: data.bookForm.formSchemaId,
+      },
+      data: {
+        description: data.bookForm.formSchema.description,
+        title: data.bookForm.formSchema.title,
+        displayLayouts: {
+          createMany: newLayouts.length
+            ? {
+                data: newLayouts,
+              }
+            : undefined,
+        },
+      },
+    });
+    if (updateLayouts)
+      await Promise.all(
+        updateLayouts.map(async (layout) => {
+          await prisma.interactionFormSchemaDisplayLayouts.update({
+            where: { id: layout.id },
+            data: {
+              ...layout,
+            },
+          });
+        })
+      );
   }
 }
