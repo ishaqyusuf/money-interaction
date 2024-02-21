@@ -45,6 +45,7 @@ export default function FormFieldSlot({
   onDelete,
 }: Props) {
   const form = useFormContext();
+
   return (
     <div
       className={cn(
@@ -80,11 +81,11 @@ export default function FormFieldSlot({
           </Button>
         </div>
       )}
-      {/* <Label>{formField.label}</Label> */}
       <ControlledInput
         label={formField.label}
         control={form.control}
-        name={formField.label}
+        type={formField.dataType}
+        name={schema ? "" : `entries.${formField.id}.value`}
       />
     </div>
   );

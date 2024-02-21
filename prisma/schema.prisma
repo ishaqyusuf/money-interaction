@@ -197,30 +197,31 @@ model InteractionAnalytics {
 }
 
 model InteractionFormValue {
-  id             Int                    @unique @default(autoincrement())
+  id             Int                   @unique @default(autoincrement())
   value          String // fish-pond interaction 
-  meta           Json                   @db.Json
-  interactionsId Int?
-  fieldId        Int?
+  meta           Json                  @db.Json
+  interactionsId Int
+  fieldId        Int
   deletedAt      DateTime?
-  createdAt      DateTime               @default(now())
-  updatedAt      DateTime               @updatedAt
-  interaction    Interactions?          @relation(fields: [interactionsId], references: [id])
-  field          InteractionFormFields? @relation(fields: [fieldId], references: [id])
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+  interaction    Interactions          @relation(fields: [interactionsId], references: [id])
+  field          InteractionFormFields @relation(fields: [fieldId], references: [id])
 }
 
 model Interactions {
-  id            Int                    @unique @default(autoincrement())
-  bookId        Int
-  bookFormId    Int
-  interactionId Int
-  details       String // fish-pond interaction 
-  deletedAt     DateTime?
-  createdAt     DateTime               @default(now())
-  updatedAt     DateTime               @updatedAt
-  book          InteractionBooks       @relation(fields: [bookId], references: [id])
-  bookForm      InteractionBookForms   @relation(fields: [bookFormId], references: [id])
-  fieldValues   InteractionFormValue[]
+  id                    Int                    @unique @default(autoincrement())
+  bookId                Int
+  bookFormId            Int
+  bookFormInteractionId Int
+  bookInteractionId     Int
+  details               String // fish-pond interaction 
+  deletedAt             DateTime?
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  book                  InteractionBooks       @relation(fields: [bookId], references: [id])
+  bookForm              InteractionBookForms   @relation(fields: [bookFormId], references: [id])
+  fieldValues           InteractionFormValue[]
 
   @@index([bookId])
 }

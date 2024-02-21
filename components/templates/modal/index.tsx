@@ -98,7 +98,7 @@ function Content({ children, size }: ContentProps) {
 
 interface HeaderProps {
   title?: string;
-  subtitle?: string;
+  subtitle?: string | null;
 }
 function Header({ title, subtitle }: HeaderProps) {
   const modal = useModal();

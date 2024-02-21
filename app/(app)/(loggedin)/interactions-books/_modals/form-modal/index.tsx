@@ -8,7 +8,6 @@ import ControlledInput from "@/components/controls/controlled-input";
 import Modal from "@/components/templates/modal";
 import { Form } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
-import { redirect } from "next/navigation";
 import React, { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import FormFieldSlot from "../../_components/form-field-slot";
@@ -17,6 +16,7 @@ import { Icons } from "@/components/common/icons";
 import { useModal } from "@/components/templates/modal/provider";
 import FieldFormModal from "../field-form-modal";
 import { saveInteractionFormAction } from "../../_actions/save-interaction-form-action";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Props {
   id?;
@@ -79,8 +79,8 @@ export default function CreateFormModal({
   return (
     <Modal.Content>
       <Modal.Header
-        title="New Interaction"
-        subtitle="Create a new Interaction Book"
+        title="New Form"
+        subtitle="Create a new Interaction Formdoc"
       />
       <Form {...form}>
         <div className="grid gap-2">
@@ -90,34 +90,50 @@ export default function CreateFormModal({
             label="Interaction title"
             placeholder="e.g; thrift, donation, event management"
           />
+          <ControlledInput
+            control={form.control}
+            name="bookForm.formSchema.description"
+            label="Description"
+            type="textarea"
+            placeholder="brief about form"
+          />
           <div className="py-4">
-            <Label className="mb-4 block py-2 border-b">Form Fields</Label>
-            <div className="grid grid-cols-12 gap-2">
-              {formFields.map((field, index) => (
-                <FormFieldSlot
-                  edit={() => {
-                    editFieldForm(field, index);
+            <Tabs>
+              <TabsList>
+                <TabsTrigger value="fields"></TabsTrigger>
+                <TabsTrigger value="layout"></TabsTrigger>
+              </TabsList>
+              <TabsContent value="fields">
+                <Label className="mb-4 block py-2 border-b">Form Fields</Label>
+                <div className="grid grid-cols-12 gap-2">
+                  {formFields.map((field, index) => (
+                    <FormFieldSlot
+                      edit={() => {
+                        editFieldForm(field, index);
+                      }}
+                      onDelete={() => {
+                        deleteField(index, field);
+                      }}
+                      schema
+                      key={field._id}
+                      formField={field}
+                    />
+                  ))}
+                </div>
+                <Button
+                  onClick={() => {
+                    editFieldForm();
                   }}
-                  onDelete={() => {
-                    deleteField(index, field);
-                  }}
-                  schema
-                  key={field._id}
-                  formField={field}
-                />
-              ))}
-            </div>
-            <Button
-              onClick={() => {
-                editFieldForm();
-              }}
-              className="w-full"
-              variant={"outline"}
-              size={"sm"}
-            >
-              <Icons.plus className="w-4 h-4" />
-              <span>New Field</span>
-            </Button>
+                  className="w-full"
+                  variant={"outline"}
+                  size={"sm"}
+                >
+                  <Icons.plus className="w-4 h-4" />
+                  <span>New Field</span>
+                </Button>
+              </TabsContent>
+              <TabsContent value="layout"></TabsContent>
+            </Tabs>
           </div>
         </div>
         <Modal.Footer onSubmit={submit} submitText="Save" />

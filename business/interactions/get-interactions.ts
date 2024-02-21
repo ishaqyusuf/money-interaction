@@ -3,11 +3,13 @@
 import { prisma } from "../db";
 import { GetInteractionsQuery } from "../type";
 
-export async function _getInteractions(bookId, query: GetInteractionsQuery) {
+export async function _getInteractions(bookSlug, query: GetInteractionsQuery) {
   const interactions = await prisma.interactions.findMany({
     where: {
       deletedAt: null,
-      bookId,
+      book: {
+        slug: bookSlug,
+      },
     },
     include: {
       bookForm: {
