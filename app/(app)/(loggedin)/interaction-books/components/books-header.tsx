@@ -1,22 +1,24 @@
 "use client";
 
 import { useModal } from "@/components/templates/modal/provider";
-import { Button } from "@/components/ui/button";
-import CreateInteractionBookModal from "../_modals/book-modal";
 
 export function BooksHeader() {
   const modal = useModal();
   return (
-    <div className="flex justify-between">
-      <div></div>
-      <div>
-        <Button
+    <div className="px-4 sm:px-10 py-2 sm:py-4">
+      <div className="flex justify-between">
+        <div>
+          <h1 className="text-2xl font-bold">Interaction Books</h1>
+        </div>
+        <div>
+          {/* <Button
           onClick={() => {
             modal.openModal(<CreateInteractionBookModal />);
           }}
         >
           New
-        </Button>
+        </Button> */}
+        </div>
       </div>
     </div>
   );

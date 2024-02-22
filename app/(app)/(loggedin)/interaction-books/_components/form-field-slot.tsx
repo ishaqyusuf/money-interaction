@@ -9,6 +9,10 @@ import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 import { useFormContext } from "react-hook-form";
 import { styles } from "../data/styles";
+import { useEffect, useState } from "react";
+import ControlledSelect from "@/components/controls/controlled-select";
+import { getAutoOptions } from "../_actions/get-auto-options";
+import ControlledDate from "@/components/controls/controlled-date";
 
 const style = cva("", {
   variants: {
@@ -29,7 +33,16 @@ export default function FormFieldSlot({
   onDelete,
 }: Props) {
   const form = useFormContext();
-
+  const isAutoComplete = formField.dataType == "auto-complete";
+  const isDate = formField.dataType == "date";
+  const [options, setOptions] = useState<{ label; value }[]>();
+  useEffect(() => {
+    if (isAutoComplete && !schema) {
+      getAutoOptions(formField.autoCompleteFromFieldId).then((d) =>
+        setOptions(d)
+      );
+    }
+  }, []);
   return (
     <div
       className={cn(
@@ -65,12 +78,27 @@ export default function FormFieldSlot({
           </Button>
         </div>
       )}
-      <ControlledInput
-        label={formField.label}
-        control={form.control}
-        type={formField.dataType}
-        name={schema ? "" : `entries.${formField.id}.value`}
-      />
+      {isAutoComplete ? (
+        <ControlledSelect
+          label={formField.label}
+          control={form.control}
+          options={options}
+          name={schema ? "" : `entries.${formField.id}.value`}
+        />
+      ) : isDate ? (
+        <ControlledDate
+          label={formField.label}
+          control={form.control}
+          name={schema ? "" : `entries.${formField.id}.value`}
+        />
+      ) : (
+        <ControlledInput
+          label={formField.label}
+          control={form.control}
+          type={formField.dataType}
+          name={schema ? "" : `entries.${formField.id}.value`}
+        />
+      )}
     </div>
   );
 }

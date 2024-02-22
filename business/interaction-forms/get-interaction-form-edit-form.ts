@@ -38,6 +38,7 @@ export async function _getInteractionFormEditForm(
       bookForm: {
         bookId,
         formSchema: {
+          type: "default",
           meta: {},
           displayLayouts: [],
           formFields: [],

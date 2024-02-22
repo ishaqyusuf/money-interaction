@@ -19,6 +19,8 @@ import { saveInteractionFormAction } from "../../_actions/save-interaction-form-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import DisplayLayout from "./display-layout";
+import ControlledSelect from "@/components/controls/controlled-select";
+import { formTypes } from "../../data/form-type";
 
 interface Props {
   id?;
@@ -101,6 +103,12 @@ export default function CreateFormModal({
             label="Description"
             type="textarea"
             placeholder="brief about form"
+          />
+          <ControlledSelect
+            options={formTypes}
+            control={form.control}
+            name="bookForm.formSchema.type"
+            label="Form Type"
           />
           <div className="py-4">
             <Tabs defaultValue="fields">

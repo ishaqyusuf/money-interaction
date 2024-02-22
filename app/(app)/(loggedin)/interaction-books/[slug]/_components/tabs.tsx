@@ -1,14 +1,21 @@
 "use client";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Link from "next/link";
 
-export default function TransactionsTab() {
+export default function TransactionsTab({ slug }) {
   return (
     <div>
-      <Tabs>
+      <Tabs onChange={(e) => {}}>
         <TabsList>
-          <TabsTrigger value="interactions">Interactions</TabsTrigger>
-          <TabsTrigger value="forms">Forms</TabsTrigger>
+          <TabsTrigger asChild value="interactions">
+            <Link href={`/interaction-books/${slug}/interactions`}>
+              Interactions
+            </Link>
+          </TabsTrigger>
+          <TabsTrigger asChild value="forms">
+            <Link href={`/interaction-books/${slug}`}>Forms</Link>
+          </TabsTrigger>
         </TabsList>
       </Tabs>
     </div>

@@ -37,7 +37,7 @@ export default function InteractionHeader({ promise }: Props) {
               <DropdownMenuItem
                 onClick={async () => {
                   const formData = await _getInteractionEntryForm({
-                    bookFormId: bookForm.id,
+                    bookFormId: p.bookFormId,
                   });
                   modal.openModal(<InteractionEntryModal data={formData} />);
                 }}

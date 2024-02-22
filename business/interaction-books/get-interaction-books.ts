@@ -11,5 +11,13 @@ export async function _getInteractionBooks(query: GetInteractionBooksQuery) {
     where: {
       userId: query.userId,
     },
+    include: {
+      _count: {
+        select: {
+          forms: true,
+          interactions: true,
+        },
+      },
+    },
   });
 }

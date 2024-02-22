@@ -5,7 +5,6 @@ import InteractionHeader from "./header";
 
 export default async function InteractionsPage({ params }) {
   const sh = getInteractions(params.slug);
-
   const forms = _getInteractionForms(params.slug);
   return (
     <div>
