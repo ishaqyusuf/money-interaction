@@ -27,7 +27,7 @@ export type FormFieldDataTypes =
   | "auto-complete"
   | "date"
   | "checkbox";
-
+export type FormType = "default" | "analytic";
 export type IteractionListItem = NonNullable<
   ReturnType<typeof transformInteractions>
 >[0];

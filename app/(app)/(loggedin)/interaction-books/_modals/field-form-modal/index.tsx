@@ -44,6 +44,8 @@ export default function FieldFormModal({
   const layout = form.watch("span");
   const inputType = form.watch("dataType");
 
+  const isAnalytic = formData.bookForm.formSchema.type == "analytic";
+
   useEffect(() => {}, []);
   function updateForm(field: FormType) {
     if (inputType != "auto-complete") field.autoCompleteFromFieldId = null;
@@ -98,48 +100,52 @@ export default function FieldFormModal({
               label="Unit"
               placeholder="e.g; USD, LB, Kg, NGN"
             />
-            <ControlledInput
-              className=""
-              control={form.control}
-              name="defaultValue"
-              label="Default Value"
-              placeholder=""
-            />
-            <AutoCompleteOptions
-              bookId={formData.bookForm.bookId}
-              inputType={inputType}
-            />
-            <div className="col-span-2 grid gap-4 grid-cols-2">
-              <ControlledCheckbox
-                control={form.control}
-                name="currency"
-                label="Currency"
-                description="If this value is a currency"
-              />
-              <ControlledCheckbox
-                control={form.control}
-                name="primaryField"
-                label="Primary Field"
-                description="If field is a primary field"
-              />
-              <ControlledCheckbox
-                control={form.control}
-                name="required"
-                label="Is required"
-                description=""
-              />
-            </div>
-            <div className="col-span-2 grid grid-cols-12">
-              <ControlledSelect
-                options={interactionData.spans}
-                control={form.control}
-                name="span"
-                label="Input Layout"
-                className={cn(
-                  Number(layout || 0) == 12 ? "col-span-12" : "col-span-6"
-                )}
-              />
-            </div>
+            {!isAnalytic && (
+              <>
+                <ControlledInput
+                  className=""
+                  control={form.control}
+                  name="defaultValue"
+                  label="Default Value"
+                  placeholder=""
+                />
+                <AutoCompleteOptions
+                  bookId={formData.bookForm.bookId}
+                  inputType={inputType}
+                />
+                <div className="col-span-2 grid gap-4 grid-cols-2">
+                  <ControlledCheckbox
+                    control={form.control}
+                    name="currency"
+                    label="Currency"
+                    description="If this value is a currency"
+                  />
+                  <ControlledCheckbox
+                    control={form.control}
+                    name="primaryField"
+                    label="Primary Field"
+                    description="If field is a primary field"
+                  />
+                  <ControlledCheckbox
+                    control={form.control}
+                    name="required"
+                    label="Is required"
+                    description=""
+                  />
+                </div>
+                <div className="col-span-2 grid grid-cols-12">
+                  <ControlledSelect
+                    options={interactionData.spans}
+                    control={form.control}
+                    name="span"
+                    label="Input Layout"
+                    className={cn(
+                      Number(layout || 0) == 12 ? "col-span-12" : "col-span-6"
+                    )}
+                  />
+                </div>
+              </>
+            )}
           </div>
         </ScrollArea>
         <Modal.Footer

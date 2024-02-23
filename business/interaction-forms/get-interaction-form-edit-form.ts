@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "../db";
-import { FormFieldDataTypes } from "../type";
+import { FormFieldDataTypes, FormType } from "../type";
 
 export async function _getInteractionFormEditForm(
   formPermissionId,
@@ -34,7 +34,6 @@ export async function _getInteractionFormEditForm(
       deleteForm: true,
       editForm: true,
       createInteraction: true,
-
       bookForm: {
         bookId,
         formSchema: {
@@ -60,6 +59,7 @@ export async function _getInteractionFormEditForm(
       ...form2?.bookForm,
       formSchema: {
         ...form2.bookForm?.formSchema,
+        type: form2.bookForm.formSchema.type as FormType,
         formFields: form2.bookForm.formSchema.formFields.map((field) => {
           return {
             ...field,

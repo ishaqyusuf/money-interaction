@@ -90,65 +90,70 @@ export default function CreateFormModal({
         subtitle="Create a new Interaction Formdoc"
       />
       <Form {...form}>
-        <ScrollArea className="grid gap-2 min-h-max max-h-[50vh]">
-          <ControlledInput
-            control={form.control}
-            name="bookForm.formSchema.title"
-            label="Interaction title"
-            placeholder="e.g; thrift, donation, event management"
-          />
-          <ControlledInput
-            control={form.control}
-            name="bookForm.formSchema.description"
-            label="Description"
-            type="textarea"
-            placeholder="brief about form"
-          />
-          <ControlledSelect
-            options={formTypes}
-            control={form.control}
-            name="bookForm.formSchema.type"
-            label="Form Type"
-          />
-          <div className="py-4">
-            <Tabs defaultValue="fields">
-              <TabsList>
-                <TabsTrigger value="fields">Form Fields</TabsTrigger>
-                <TabsTrigger value="layout">Display Layout</TabsTrigger>
-              </TabsList>
-              <TabsContent value="fields">
-                <Label className="mb-4 block py-2 border-b">Form Fields</Label>
-                <div className="grid grid-cols-12 gap-2">
-                  {formFields.map((field, index) => (
-                    <FormFieldSlot
-                      edit={() => {
-                        editFieldForm(field, index);
-                      }}
-                      onDelete={() => {
-                        deleteField(index, field);
-                      }}
-                      schema
-                      key={field._id}
-                      formField={field}
-                    />
-                  ))}
-                </div>
-                <Button
-                  onClick={() => {
-                    editFieldForm();
-                  }}
-                  className="w-full"
-                  variant={"outline"}
-                  size={"sm"}
-                >
-                  <Icons.plus className="w-4 h-4" />
-                  <span>New Field</span>
-                </Button>
-              </TabsContent>
-              <TabsContent value="layout">
-                <DisplayLayout />
-              </TabsContent>
-            </Tabs>
+        <ScrollArea className="min-h-max max-h-[50vh]">
+          <div className="grid gap-2">
+            <ControlledInput
+              control={form.control}
+              name="bookForm.formSchema.title"
+              label="Interaction title"
+              placeholder="e.g; thrift, donation, event management"
+            />
+            <ControlledSelect
+              options={formTypes}
+              control={form.control}
+              name="bookForm.formSchema.type"
+              label="Form Type"
+            />
+            <ControlledInput
+              control={form.control}
+              name="bookForm.formSchema.description"
+              label="Description"
+              type="textarea"
+              placeholder="brief about form"
+            />
+
+            <div className="py-4">
+              <Tabs defaultValue="fields">
+                <TabsList>
+                  <TabsTrigger value="fields">Form Fields</TabsTrigger>
+                  <TabsTrigger value="layout">Display Layout</TabsTrigger>
+                </TabsList>
+                <TabsContent value="fields">
+                  <Label className="mb-4 block py-2 border-b">
+                    Form Fields
+                  </Label>
+                  <div className="grid grid-cols-12 gap-2">
+                    {formFields.map((field, index) => (
+                      <FormFieldSlot
+                        edit={() => {
+                          editFieldForm(field, index);
+                        }}
+                        onDelete={() => {
+                          deleteField(index, field);
+                        }}
+                        schema
+                        key={field._id}
+                        formField={field}
+                      />
+                    ))}
+                  </div>
+                  <Button
+                    onClick={() => {
+                      editFieldForm();
+                    }}
+                    className="w-full"
+                    variant={"outline"}
+                    size={"sm"}
+                  >
+                    <Icons.plus className="w-4 h-4" />
+                    <span>New Field</span>
+                  </Button>
+                </TabsContent>
+                <TabsContent value="layout">
+                  <DisplayLayout />
+                </TabsContent>
+              </Tabs>
+            </div>
           </div>
         </ScrollArea>
         <Modal.Footer onSubmit={submit} submitText="Save" />
