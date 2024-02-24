@@ -8,6 +8,7 @@ import { transformInteractions } from "./utils/transform-interaction";
 import { _getInteractionBooks } from "./interaction-books/get-interaction-books";
 import { _getInteractionForms } from "./interaction-forms/get-interaction-forms";
 import { _getInteractionEntryForm } from "./interaction-entries/get-entry-form";
+import { _saveEntryForm } from "./interaction-entries/save-entry-form";
 
 export type InteractionBookEditForm = ServerResponse<
   typeof _getInteractionBookEditForm
@@ -19,6 +20,7 @@ export type GetInteractionForms = ServerResponse<typeof _getInteractionForms>;
 export type GetInteractionEntryForm = ServerResponse<
   typeof _getInteractionEntryForm
 >;
+export type SaveEntryForm = ServerResponse<typeof _saveEntryForm>;
 
 export type FormFieldDataTypes =
   | "default"

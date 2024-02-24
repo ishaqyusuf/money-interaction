@@ -184,16 +184,18 @@ model InteractionFormFields {
 }
 
 model InteractionAnalytics {
-  id        Int                    @unique @default(autoincrement())
-  title     String
-  value     Float
-  bookId    Int
-  fieldId   Int
-  deletedAt DateTime?
-  createdAt DateTime               @default(now())
-  updatedAt DateTime               @updatedAt
-  book      InteractionBooks       @relation(fields: [bookId], references: [id])
-  formField InteractionFormFields? @relation(fields: [fieldId], references: [id])
+  id            Int                    @unique @default(autoincrement())
+  title         String // formName -> formLabel, formName -> primaryFormLabel -> formLabel, sum: formName -> formLabel, sum: formName -> primaryFormLabel -> formLabel
+  value         Float
+  bookId        Int
+  fieldId       Int
+  interactionId Int
+  deletedAt     DateTime?
+  createdAt     DateTime               @default(now())
+  updatedAt     DateTime               @updatedAt
+  book          InteractionBooks       @relation(fields: [bookId], references: [id])
+  formField     InteractionFormFields? @relation(fields: [fieldId], references: [id])
+  Interactions  Interactions           @relation(fields: [interactionId], references: [id])
 }
 
 model InteractionFormValue {
@@ -222,6 +224,7 @@ model Interactions {
   book                  InteractionBooks       @relation(fields: [bookId], references: [id])
   bookForm              InteractionBookForms   @relation(fields: [bookFormId], references: [id])
   fieldValues           InteractionFormValue[]
+  analytics             InteractionAnalytics[]
 
   @@index([bookId])
 }

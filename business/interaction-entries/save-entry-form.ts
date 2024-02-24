@@ -41,7 +41,13 @@ export async function _saveEntryForm(data: GetInteractionEntryForm) {
           },
         },
       },
+      include: {
+        fieldValues: true,
+      },
     });
-    return i;
+    return {
+      reqData: data,
+      interaction: i,
+    };
   }
 }
