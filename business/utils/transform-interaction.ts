@@ -5,7 +5,7 @@ export function transformInteractions(interactions: GetInteractions["items"]) {
     let transformedData: any = {};
     interaction.fieldValues.map(({ field, ...value }) => {
       if (field?.dataType == "string")
-        transformedData[field.title] = value.value;
+        transformedData[field.label] = value.value;
       // if(field?.dataType)
     });
     return {
