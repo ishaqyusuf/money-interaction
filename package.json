@@ -6,6 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "postinstall": "prisma generate",
+    "primapush": "prisma push",
+    "migrate": "prisma migrate dev",
     "lint": "next lint"
   },
   "dependencies": {
@@ -38,6 +41,7 @@
     "react-day-picker": "^8.10.0",
     "react-dom": "^18",
     "react-hook-form": "^7.50.1",
+    "react-wrap-balancer": "^1.1.0",
     "sass": "^1.71.1",
     "slate": "^0.102.0",
     "slate-react": "^0.102.0",

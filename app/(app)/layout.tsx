@@ -1,3 +1,3 @@
-export default function AppLayout({ children }) {
+export default function LoggedInLayout({ children }) {
   return <>{children}</>;
 }
