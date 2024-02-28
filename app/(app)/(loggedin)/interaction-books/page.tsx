@@ -3,7 +3,7 @@ import { BooksGrid } from "./components/books-grid";
 import { BooksHeader } from "./components/books-header";
 import BreadcrumbItem from "../components/header/breadcrumb-item";
 import Shell from "../components/shell";
-import BreadCrumbServer from "./components/bread-crumb-server";
+import BreadCrumbServer from "../components/header/bread-crumb-server";
 
 export default async function InteractionBooksPage({ searchParams }) {
   const query = searchParams;

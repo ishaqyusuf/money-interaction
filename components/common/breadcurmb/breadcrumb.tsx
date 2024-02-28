@@ -3,13 +3,15 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { createPortal } from "react-dom";
-import { Icons } from "./icons";
-import { useEffect, useState } from "react";
+import { Icons } from "../icons";
+import React, { useEffect, useState } from "react";
+import { BreadCrumbProvider } from "./provider";
 
 interface Props {
   children?;
+  value?;
 }
-function BreadCrumb({ children }: Props) {
+function BreadCrumb({ children, value }: Props) {
   const [container, setContainer] = useState<any>(null);
   const [check, setCheck] = useState(true);
   useEffect(() => {
@@ -24,7 +26,9 @@ function BreadCrumb({ children }: Props) {
       aria-label="breadcrumbs"
       className="items-center text-sm font-medium  hidden lg:flex"
     >
-      {children}
+      <BreadCrumbProvider.Provider value={value}>
+        {children}
+      </BreadCrumbProvider.Provider>
     </nav>,
     container
   );
