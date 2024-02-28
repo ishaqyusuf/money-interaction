@@ -7,11 +7,11 @@ interface Props {
   children?;
   isInner?: boolean;
 }
-export async function SideMenu({ children, isInner }: Props) {
+export function SideMenu({ children, isInner }: Props) {
   return (
     <ScrollArea
       className={cn(
-        "hidden bg-zinc-50 lg:flex lg:flex-col lg:border-r",
+        "hidden bg-zinc-50 lg:flex lg:flex-col lg:border-r w-[200px]",
         isInner ? "lg:w-80 xl:w-96" : "lg:w-60 xl:w-72"
       )}
     >

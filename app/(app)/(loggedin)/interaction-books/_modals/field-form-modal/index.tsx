@@ -130,7 +130,14 @@ export default function FieldFormModal({
                     control={form.control}
                     name="required"
                     label="Is required"
-                    description=""
+                    description="Required form field"
+                  />
+                  <ControlledCheckbox
+                    control={form.control}
+                    name="meta.suggestion"
+                    label="Suggestion"
+                    disabled
+                    description="Suggest field entries"
                   />
                 </div>
                 <div className="col-span-2 grid grid-cols-12">

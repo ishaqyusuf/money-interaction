@@ -16,5 +16,7 @@ export async function lastId<T>(model, where?: T, _default = 0, col = "id") {
 }
 export async function _slug(title, id?, model?) {
   if (!id) id = await nextId(model);
-  return slugify(`${title} ${id}`);
+  return slugify(`${title} ${id}`, {
+    lower: true,
+  });
 }

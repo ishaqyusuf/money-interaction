@@ -1,8 +1,15 @@
 import { Icons } from "@/components/common/icons";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Metadata } from "next";
 import Link from "next/link";
 import Balancer from "react-wrap-balancer";
+
+export const metadata: Metadata = {
+  title: "Formly",
+  description:
+    "Better Forms, with Badget No more Excels Empower your financial management with AI-driven insights, making tracking and optimizing your finances effortless.",
+};
 
 export default function Home() {
   return (

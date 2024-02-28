@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -115,7 +115,7 @@ model SchemaRelations {
 model InteractionFormSchemas {
   id             Int                                   @unique @default(autoincrement())
   title          String // feed booking, petrol, feeds collected, worker's salary
-  description    String?                               @db.LongText
+  description    String?                               @db.Text
   type           String? //analytic, default 
   meta           Json                                  @db.Json
   publishedAt    DateTime?                             @db.Timestamp(0)
