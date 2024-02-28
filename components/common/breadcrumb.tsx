@@ -4,21 +4,29 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { createPortal } from "react-dom";
 import { Icons } from "./icons";
+import { useEffect, useState } from "react";
 
 interface Props {
   children?;
 }
 function BreadCrumb({ children }: Props) {
-  const BreadcrumbElement = document?.getElementById("bread-crumb");
-  if (!BreadcrumbElement) return null;
+  const [container, setContainer] = useState<any>(null);
+  const [check, setCheck] = useState(true);
+  useEffect(() => {
+    if (!container) {
+      const c = document?.getElementById("bread-crumb");
+      setContainer(c);
+    }
+  }, []);
+  if (!container) return <></>;
   return createPortal(
     <nav
       aria-label="breadcrumbs"
-      className="items-center text-sm font-medium text-muted-foreground hidden lg:flex"
+      className="items-center text-sm font-medium  hidden lg:flex"
     >
       {children}
     </nav>,
-    BreadcrumbElement
+    container
   );
 }
 

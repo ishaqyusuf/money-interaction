@@ -3,6 +3,7 @@ import {
   CalendarIcon,
   ChevronDown,
   ChevronRightIcon,
+  ChevronsUpDown,
   Pencil,
   Plus,
   Trash,
@@ -15,6 +16,7 @@ export const Icons = {
   calendar: CalendarIcon,
   chevronDown: ChevronDown,
   chevronRightIcon: ChevronRightIcon,
+  upDownChevron: ChevronsUpDown,
   logo: ({ ...props }) => (
     <svg
       {...props}

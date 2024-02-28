@@ -15,8 +15,14 @@ export default function FeedBack() {
       <DropdownMenuTrigger asChild>
         <Button variant={"outline"}>Feedback</Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <Textarea className="w-" />
+      <DropdownMenuContent className="w-96">
+        <Textarea className="h-24" placeholder="Your feedback..." />
+        <div className="p-2 mt-2 flex items-center">
+          <div className="flex-1"></div>
+          <div>
+            <Button>Send</Button>
+          </div>
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   );

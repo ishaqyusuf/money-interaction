@@ -23,16 +23,18 @@ export function BooksGrid({ promise }: Props) {
         className="border hover:border-teal-500 hover:bg-teal-100  min-h-[20vh] w-full flex flex-col items-center justify-center rounded-xl group p-2 py-4 space-y-4"
       >
         <Icons.plus />
-        <Label className="group-hover:underline">New Thrift</Label>
+        <Label className="group-hover:underline text-base">New Book</Label>
       </button>
       {data.map((item) => (
         <Link
-          className="border hover:border-teal-500 hover:bg-teal-100 rounded-xl flex flex-col justify-between group p-2 py-4"
+          className="border hover:border-teal-500 hover:bg-teal-100 rounded-xl flex flex-col justify-between group p-4"
           href={`/interaction-books/${item.slug}`}
           key={item.id}
         >
           <div>
-            <Label className="group-hover:underline">{item.name}</Label>
+            <Label className="group-hover:underline text-base">
+              {item.name}
+            </Label>
           </div>
           <div className="flex space-x-4">
             <div>
