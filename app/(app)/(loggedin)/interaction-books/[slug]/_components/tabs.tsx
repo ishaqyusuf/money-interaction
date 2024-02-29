@@ -1,23 +1,30 @@
 "use client";
+import { NavItem, NavTab } from "@/components/common/nav-tab";
+import { usePathname } from "next/navigation";
 
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Link from "next/link";
-
-export default function TransactionsTab({ slug }) {
+function composeTab(baseUrl, pathName) {
+  return {
+    baseUrl,
+    tab(title, path) {
+      const href = `${baseUrl}${path ? "/" : ""}${path}`;
+      return { title, href, active: pathName == href };
+    },
+  };
+}
+export default function InteractionsTab({ slug }) {
+  const baseUrl = `/interaction-books/${slug}`;
+  const pathName = usePathname();
+  const tabs = composeTab(baseUrl, pathName);
+  const navs = [
+    tabs.tab("Dashboard", ""),
+    tabs.tab("Interactions", "interactions"),
+    tabs.tab("Forms", "forms"),
+  ];
   return (
-    <div>
-      <Tabs onChange={(e) => {}}>
-        <TabsList>
-          <TabsTrigger asChild value="interactions">
-            <Link href={`/interaction-books/${slug}/interactions`}>
-              Interactions
-            </Link>
-          </TabsTrigger>
-          <TabsTrigger asChild value="forms">
-            <Link href={`/interaction-books/${slug}`}>Forms</Link>
-          </TabsTrigger>
-        </TabsList>
-      </Tabs>
-    </div>
+    <NavTab>
+      {navs.map((props, index) => (
+        <NavItem key={index} {...props}></NavItem>
+      ))}
+    </NavTab>
   );
 }

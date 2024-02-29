@@ -1,14 +1,17 @@
 import {
   Calendar,
   CalendarIcon,
+  Check,
   ChevronDown,
   ChevronRightIcon,
   ChevronsUpDown,
   Pencil,
   Plus,
+  Slash,
   Trash,
 } from "lucide-react";
 
+export type IconType = keyof typeof Icons;
 export const Icons = {
   plus: Plus,
   edit: Pencil,
@@ -17,6 +20,8 @@ export const Icons = {
   chevronDown: ChevronDown,
   chevronRightIcon: ChevronRightIcon,
   upDownChevron: ChevronsUpDown,
+  checkMark: Check,
+  slash: Slash,
   logo: ({ ...props }) => (
     <svg
       {...props}

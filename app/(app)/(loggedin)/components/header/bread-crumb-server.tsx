@@ -5,14 +5,19 @@ import { ServerResponse } from "@/type";
 
 interface Props {
   bookSlug?: string;
-  formSlug?: string;
+  formSchemaId?: number;
 }
 export type BreadCrumHeader = ServerResponse<typeof getBreadcrumbHeaderAction>;
-export default async function BreadCrumbServer({ bookSlug, formSlug }: Props) {
-  const header = await getBreadcrumbHeaderAction(bookSlug, formSlug);
+export default async function BreadCrumbServer({
+  bookSlug,
+  formSchemaId,
+}: Props) {
+  const header = await getBreadcrumbHeaderAction(bookSlug, formSchemaId);
+
   return (
     <Breadcrumb value={header}>
-      <BreadcrumbItem />
+      <BreadcrumbItem {...header.currentBook} />
+      {header.currentBookForm && <BreadcrumbItem {...header.currentBookForm} />}
     </Breadcrumb>
   );
 }

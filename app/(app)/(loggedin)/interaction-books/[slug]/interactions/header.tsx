@@ -23,6 +23,7 @@ export default function InteractionHeader({ promise }: Props) {
   const modal = useModal();
   return (
     <div className="flex">
+      <div className="text-4xl ">Interactions </div>
       <div className="flex-1"></div>
       <div className="">
         <DropdownMenu>

@@ -8,8 +8,8 @@ interface Props {
 }
 export default function Header({ children }: Props) {
   return (
-    <header className="py-2 border-b flex flex-col px-4 sm:px-8 ">
-      <div className="flex items-center space-x-4 sm:space-x-6">
+    <header className="border-b flex flex-col px-4 sm:px-8 ">
+      <div className="flex py-3 items-center space-x-4 sm:space-x-6">
         <div className="flex items-center ">
           <Icons.logoSquare className="w-8 h-8" />
           {/* <div className="mx-3 text-muted-foreground text-opacity-25">/</div> */}

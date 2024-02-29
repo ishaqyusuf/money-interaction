@@ -4,7 +4,7 @@ import { GetInteractionForms } from "@/business/type";
 import { useModal } from "@/components/templates/modal/provider";
 import { PlusIcon } from "@radix-ui/react-icons";
 import React from "react";
-import CreateFormModal from "../_modals/form-modal";
+import CreateFormModal from "../../_modals/form-modal";
 import { Icons } from "@/components/common/icons";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";

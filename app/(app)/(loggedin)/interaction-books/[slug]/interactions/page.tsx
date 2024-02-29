@@ -2,14 +2,20 @@ import { _getInteractionForms } from "@/business/interaction-forms/get-interacti
 import { getInteractions } from "../../_actions/get-interactions";
 import InteractionList from "./list";
 import InteractionHeader from "./header";
+import BreadCrumbServer from "../../../components/header/bread-crumb-server";
+import Shell from "../../../components/shell";
 
-export default async function InteractionsPage({ params }) {
+export default async function InteractionsPage({ params, searchParams }) {
   const sh = getInteractions(params.slug);
   const forms = _getInteractionForms(params.slug);
+
+  const formSchemaId = Number(searchParams.formSchemaId) || undefined;
+
   return (
-    <div>
+    <Shell>
+      <BreadCrumbServer bookSlug={params.slug} formSchemaId={formSchemaId} />
       <InteractionHeader promise={forms} />
       <InteractionList promise={sh} />
-    </div>
+    </Shell>
   );
 }

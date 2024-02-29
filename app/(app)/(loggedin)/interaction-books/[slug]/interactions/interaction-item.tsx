@@ -16,10 +16,12 @@ export function InteractionItem({ item }: Props) {
     return l;
   });
   return (
-    <div className="border-b mb-2">
+    <div className="border-b mb-2 py-2">
       <div className="flex justify-between">
         <div className="flex mb-2 space-x-2">
-          <Badge variant={"outline"}>{item.bookForm.formSchema.title}</Badge>
+          <Badge variant={"outline"} className="text-purple-900">
+            {item.bookForm.formSchema.title}
+          </Badge>
           {item.fieldValues
             .filter((fv) => fv.field.primaryField)
             .map((f) => (
