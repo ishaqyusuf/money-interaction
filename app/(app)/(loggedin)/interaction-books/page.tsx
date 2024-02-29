@@ -11,7 +11,7 @@ export default async function InteractionBooksPage({ searchParams }) {
   return (
     <Shell>
       <BreadCrumbServer />
-      <div className="grid gap-8 items-start">
+      <div className="grid gap-4 items-start">
         <BooksHeader />
         <BooksGrid promise={promise} />
       </div>
