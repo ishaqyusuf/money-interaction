@@ -24,6 +24,7 @@ import { saveInteractionFormAction } from "../../_actions/save-interaction-form-
 import { ServerResponse } from "@/type";
 import { _getInteractionEntryForm } from "@/business/interaction-entries/get-entry-form";
 import { _saveEntryForm } from "@/business/interaction-entries/save-entry-form";
+import { saveInteractionEntry } from "../../_actions/save-interaction-entry";
 
 interface Props {
   data: GetInteractionEntryForm;
@@ -41,7 +42,7 @@ export default function InteractionEntryModal({ data }: Props) {
   async function submit() {
     const data = form.getValues();
     console.log(data);
-    const resp = await _saveEntryForm(data);
+    const resp = await saveInteractionEntry(data);
     modal.close();
     // const resp = await _saveInteractionBook(data);
     // redirect(`/interaction-books/${resp.slug}`);

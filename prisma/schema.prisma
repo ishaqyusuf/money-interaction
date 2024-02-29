@@ -169,6 +169,7 @@ model InteractionFormFields {
   unit                    String? // LB, KG, USD etc
   span                    Int?                   @default(12)
   defaultValue            String?
+  formula                 String?
   currency                Boolean?               @default(false)
   autoCompleteFromFieldId Int?
   primaryField            Boolean                @default(false)
