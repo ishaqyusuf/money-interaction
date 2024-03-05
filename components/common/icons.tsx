@@ -14,6 +14,7 @@ import {
 export type IconType = keyof typeof Icons;
 export const Icons = {
   plus: Plus,
+
   edit: Pencil,
   delete: Trash,
   calendar: CalendarIcon,

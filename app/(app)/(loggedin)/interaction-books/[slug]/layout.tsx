@@ -1,6 +1,7 @@
 import TransactionsTab from "./_components/tabs";
 
-export default function Layout({ children, params, searchParams }) {
+export default async function Layout({ children, params, searchParams }) {
+  // const interactionBookTabs =
   return (
     <div className="">
       {/* <InteractionsTab {...params} {...searchParams} /> */}

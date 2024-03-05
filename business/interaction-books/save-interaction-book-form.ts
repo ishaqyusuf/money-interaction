@@ -33,6 +33,8 @@ export async function _saveInteractionBook(data: InteractionBookEditForm) {
             create: {
               userId: authId,
               createForm: true,
+              createDashboard: true,
+              viewDashboards: true,
             },
           },
         },

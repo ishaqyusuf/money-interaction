@@ -43,9 +43,11 @@ export default function ControlledInput<
       {...(props as any)}
       render={({ field }) => (
         <FormItem className={cn(className)}>
-          {label && <FormLabel>{label}</FormLabel>}
+          {label && <FormLabel className="px-0.5">{label}</FormLabel>}
           <FormControl>
-            <div className={cn(suffix && "flex items-center space-x-1")}>
+            <div
+              className={cn(suffix && "flex items-center space-x-1", "p-0.5")}
+            >
               {type == "textarea" ? (
                 <Textarea
                   placeholder={placeholder}

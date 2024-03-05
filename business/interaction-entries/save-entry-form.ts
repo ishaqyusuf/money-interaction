@@ -42,7 +42,16 @@ export async function _saveEntryForm(data: GetInteractionEntryForm) {
         },
       },
       include: {
-        fieldValues: true,
+        bookForm: {
+          include: {
+            formSchema: true,
+          },
+        },
+        fieldValues: {
+          include: {
+            field: true,
+          },
+        },
       },
     });
     return {

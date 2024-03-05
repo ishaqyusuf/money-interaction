@@ -22,34 +22,39 @@ model Users {
 }
 
 model InteractionBooks {
-  id             Int                       @unique @default(autoincrement())
-  userId         Int
-  name           String // fish-pond, ishaq's pond 3 
-  slug           String                    @unique
-  deletedAt      DateTime?
-  createdAt      DateTime                  @default(now())
-  updatedAt      DateTime                  @updatedAt
-  analytics      InteractionAnalytics[]
-  interactions   Interactions[]
-  forms          InteractionBookForms[]
-  user           Users                     @relation(fields: [userId], references: [id])
-  categories     InteractionBookCategory[]
-  bookAccessList InteractionBookAccess[]
+  id                  Int                       @unique @default(autoincrement())
+  userId              Int
+  name                String // fish-pond, ishaq's pond 3 
+  slug                String                    @unique
+  deletedAt           DateTime?
+  createdAt           DateTime                  @default(now())
+  updatedAt           DateTime                  @updatedAt
+  analytics           InteractionAnalytics[]
+  interactions        Interactions[]
+  forms               InteractionBookForms[]
+  user                Users                     @relation(fields: [userId], references: [id])
+  categories          InteractionBookCategory[]
+  bookAccessList      InteractionBookAccess[]
+  dashboardComponents DashboardComponents[]
+  dashboardTabs       DashboardTab[]
 
   @@index([createdAt, deletedAt, userId, slug])
 }
 
 model InteractionBookAccess {
-  id          Int                         @unique @default(autoincrement())
-  bookId      Int
-  userId      Int
-  createForm  Boolean?                    @default(false)
-  deletedAt   DateTime?
-  createdAt   DateTime                    @default(now())
-  updatedAt   DateTime                    @updatedAt
-  book        InteractionBooks            @relation(fields: [bookId], references: [id])
-  user        Users                       @relation(fields: [userId], references: [id])
-  permissions InteractionFormPermission[]
+  id                      Int                         @unique @default(autoincrement())
+  bookId                  Int
+  userId                  Int
+  createForm              Boolean?                    @default(false)
+  viewDashboards          Boolean?                    @default(false)
+  createDashboard         Boolean?                    @default(false)
+  deletedAt               DateTime?
+  createdAt               DateTime                    @default(now())
+  updatedAt               DateTime                    @updatedAt
+  book                    InteractionBooks            @relation(fields: [bookId], references: [id])
+  user                    Users                       @relation(fields: [userId], references: [id])
+  permissions             InteractionFormPermission[]
+  dashboardTabPermissions DashboardTabPermissions[]
 
   @@index([createdAt, deletedAt, userId, bookId])
 }
@@ -180,13 +185,14 @@ model InteractionFormFields {
   updatedAt               DateTime               @updatedAt
   formSchema              InteractionFormSchemas @relation(fields: [formSchemaId], references: [id])
   formSchemaId            Int
+  components              DashboardComponents[]
   values                  InteractionFormValue[]
   analytics               InteractionAnalytics[]
 }
 
 model InteractionAnalytics {
   id            Int                    @unique @default(autoincrement())
-  title         String // formName -> formLabel, formName -> primaryFormLabel -> formLabel, sum: formName -> formLabel, sum: formName -> primaryFormLabel -> formLabel
+  title         String
   value         Float
   bookId        Int
   fieldId       Int
@@ -228,4 +234,45 @@ model Interactions {
   analytics             InteractionAnalytics[]
 
   @@index([bookId])
+}
+
+model DashboardTabPermissions {
+  id             Int                   @unique @default(autoincrement())
+  bookAccessId   Int
+  dashboardTabId Int
+  bookAccess     InteractionBookAccess @relation(fields: [bookAccessId], references: [id])
+  edit           Boolean               @default(false)
+  create         Boolean               @default(false)
+  delete         Boolean               @default(false)
+  dashboardTab   DashboardTab          @relation(fields: [dashboardTabId], references: [id])
+}
+
+model DashboardComponents {
+  id                Int                    @unique @default(autoincrement())
+  interactionBookId Int
+  title             String?
+  type              String
+  icon              String?
+  analyticNode      String
+  dashboardTabId    Int
+  deletedAt         DateTime?
+  createdAt         DateTime               @default(now())
+  formFieldId       Int
+  updatedAt         DateTime               @updatedAt
+  book              InteractionBooks       @relation(fields: [interactionBookId], references: [id])
+  dashboardTab      DashboardTab           @relation(fields: [dashboardTabId], references: [id])
+  formField         InteractionFormFields? @relation(fields: [formFieldId], references: [id])
+}
+
+model DashboardTab {
+  id                Int                       @unique @default(autoincrement())
+  title             String
+  slug              String                    @unique
+  interactionBookId Int?
+  permissions       DashboardTabPermissions[]
+  components        DashboardComponents[]
+  deletedAt         DateTime?
+  createdAt         DateTime                  @default(now())
+  updatedAt         DateTime                  @updatedAt
+  book              InteractionBooks?         @relation(fields: [interactionBookId], references: [id])
 }
