@@ -3,7 +3,9 @@
 import { InteractionFormFields } from "@prisma/client";
 import { _authId } from "../auth/auth-session";
 import { prisma } from "../db";
-import { transformFormField } from "../utils/typed-transform";
+import { IFormField, transformFormField } from "../utils/typed-transform";
+import { FormFieldDataTypes } from "../type";
+import { ComponentNodes } from "@/app/(app)/(loggedin)/interaction-books/_modals/component-tab-modal";
 
 export async function getDashboardNodes(bookSlug) {
   const p = await prisma.interactionBookAccess.findMany({
@@ -31,31 +33,36 @@ export async function getDashboardNodes(bookSlug) {
     },
   });
 
-  const nodes = [];
+  const nodes: ComponentNodes[] = [];
   p.map((a) => {
     a.permissions.map((pe) => {
-      function registerValues(field: InteractionFormFields) {
+      function registerValues(field: IFormField, schemaTitle) {
         const subNodes = [
           {
             id: field.id,
-            label: `${a.book.name} -> ${field.label}`,
+            type: field.dataType,
+            label: `${schemaTitle} -> ${field.label}`,
           },
         ];
-        pe.bookForm?.formSchema?.formFields?.map((ff) => {
-          if (ff.id != field.id) {
-            subNodes.push({
-              id: field.id,
-              label: `${a.book.name} -> ${ff.label} -> ${field.label}`,
-            });
-          }
-        });
+        nodes.push(...subNodes);
+        // pe.bookForm?.formSchema?.formFields?.map((ff) => {
+        //   if (ff.id != field.id) {
+        //     subNodes.push({
+        //       id: field.id,
+        //       label: `${a.book.name} -> ${ff.label} -> ${field.label}`,
+        //     });
+        //   }
+        // });
       }
       pe.bookForm?.formSchema?.formFields?.map((c) => {
         let _c = transformFormField(c);
-        if (_c.dataType == "number") {
-        }
+        // if (_c.dataType == "number") {
+        registerValues(_c, pe.bookForm?.formSchema.title);
+        // }
       });
     });
   });
-  return p;
+  return {
+    nodes,
+  };
 }

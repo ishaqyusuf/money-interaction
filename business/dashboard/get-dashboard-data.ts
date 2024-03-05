@@ -6,7 +6,7 @@ import { prisma } from "../db";
 import { DashboardComponentType } from "../type";
 import { transformFormField } from "../utils/typed-transform";
 
-export default async function dashboardData(slug, tab) {
+export default async function getDashboardData(slug, tab) {
   const components = (
     await prisma.dashboardComponents.findMany({
       where: {
@@ -33,7 +33,7 @@ export default async function dashboardData(slug, tab) {
     };
   });
 
-  const dashboardTab = await prisma.dashboardTab.findFirst({
+  let dashboardTab = await prisma.dashboardTab.findFirst({
     where: {
       slug: tab,
       permissions: {
@@ -45,9 +45,22 @@ export default async function dashboardData(slug, tab) {
       },
     },
   });
+  if (!dashboardTab) throw new Error();
+  if (!dashboardTab?.interactionBookId) {
+    dashboardTab = await prisma.dashboardTab.update({
+      where: { id: dashboardTab.id },
+      data: {
+        book: {
+          connect: {
+            slug,
+          },
+        },
+      },
+    });
+  }
   const cardComponents = Promise.all(
     components
-      .filter((c) => c.type == "card")
+      .filter((c) => c.type == "Card")
       .map(async (c) => {
         const analytics = await prisma.interactionAnalytics.findMany({
           where: {

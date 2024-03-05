@@ -252,8 +252,10 @@ model DashboardComponents {
   interactionBookId Int
   title             String?
   type              String
+  analyticType      String                 @default("sum")
   icon              String?
   analyticNode      String
+  subTitle          String?
   dashboardTabId    Int
   deletedAt         DateTime?
   createdAt         DateTime               @default(now())
@@ -268,11 +270,11 @@ model DashboardTab {
   id                Int                       @unique @default(autoincrement())
   title             String
   slug              String                    @unique
-  interactionBookId Int?
+  interactionBookId Int
   permissions       DashboardTabPermissions[]
   components        DashboardComponents[]
   deletedAt         DateTime?
   createdAt         DateTime                  @default(now())
   updatedAt         DateTime                  @updatedAt
-  book              InteractionBooks?         @relation(fields: [interactionBookId], references: [id])
+  book              InteractionBooks          @relation(fields: [interactionBookId], references: [id])
 }

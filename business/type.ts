@@ -9,7 +9,8 @@ import { _getInteractionBooks } from "./interaction-books/get-interaction-books"
 import { _getInteractionForms } from "./interaction-forms/get-interaction-forms";
 import { _getInteractionEntryForm } from "./interaction-entries/get-entry-form";
 import { _saveEntryForm } from "./interaction-entries/save-entry-form";
-import dashboardData from "./dashboard/dashboard-data";
+import getDashboardData from "./dashboard/get-dashboard-data";
+import dashboardData from "@/app/(app)/(loggedin)/interaction-books/data/dashboard-data";
 
 export type InteractionBookEditForm = ServerResponse<
   typeof _getInteractionBookEditForm
@@ -30,7 +31,11 @@ export type FormFieldDataTypes =
   | "auto-complete"
   | "date"
   | "checkbox";
-export type DashboardComponentType = "card" | "chart" | "top-5";
+export type DashboardAnalyticType =
+  (typeof dashboardData.analyticTypes)[number];
+export type DashboardComponentType =
+  (typeof dashboardData.componentTypes)[number]; // "card" | "chart" | "top-5";
+// export type DashboardCo
 export type FormType = "default" | "analytic";
 export type IteractionListItem = NonNullable<
   ReturnType<typeof transformInteractions>
@@ -42,4 +47,4 @@ export type FieldValueById = { [id in number]: InteractionFormValue };
 export interface BaseQuery {}
 export interface GetInteractionsQuery extends BaseQuery {}
 
-export type DashboardData = ServerResponse<typeof dashboardData>;
+export type DashboardData = ServerResponse<typeof getDashboardData>;
