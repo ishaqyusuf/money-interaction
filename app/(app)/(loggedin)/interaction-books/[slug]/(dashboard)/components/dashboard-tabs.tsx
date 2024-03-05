@@ -1,6 +1,5 @@
 "use client";
 
-import Shell from "@/app/(app)/(loggedin)/components/shell";
 import { getDashboards } from "@/business/dashboard/get-dashboards";
 import { ServerResponse } from "@/type";
 import { useParams } from "next/navigation";
