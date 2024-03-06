@@ -10,6 +10,7 @@ import { ComponentNodes } from "@/app/(app)/(loggedin)/interaction-books/_modals
 export async function getDashboardNodes(bookSlug) {
   const p = await prisma.interactionBookAccess.findMany({
     where: {
+      deletedAt: null,
       userId: await _authId(),
       book: {
         slug: bookSlug,

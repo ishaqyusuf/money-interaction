@@ -6,6 +6,7 @@ import { prisma } from "../db";
 export async function getDashboards(bookSlug) {
   const hasFormFields = await prisma.interactionFormFields.findMany({
     where: {
+      deletedAt: null,
       formSchema: {
         bookForms: {
           some: {

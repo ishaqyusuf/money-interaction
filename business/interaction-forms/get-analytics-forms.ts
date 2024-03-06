@@ -7,6 +7,7 @@ export async function _getAnalyticForms(bookId) {
   const fields = await prisma.interactionBookForms.findMany({
     where: {
       bookId,
+      deletedAt: null,
       formSchema: {
         type: "analytic",
       },

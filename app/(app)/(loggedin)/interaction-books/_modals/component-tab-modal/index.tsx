@@ -50,10 +50,11 @@ export default function ComponentTabModal({ type, data }: Props) {
     const formFieldId = nodes.find((n) => n.label === data.analyticNode)?.id;
     form.setValue("formFieldId", formFieldId);
     data.formFieldId = formFieldId;
-    return;
+
     if (!formFieldId) toast.message("Invalid Analytic Field");
     const resp = await saveDashboardComponent(data as any);
     if (resp.id) {
+      toast.success("Success!");
       modal.close();
       await _revalidatePath("dashboard");
     }

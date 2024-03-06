@@ -24,7 +24,8 @@ export default function DashboardTabs({ db }: Props) {
     <div className="flex m-4 container">
       <div>
         <p className="font-bold capitalize text-3xl">
-          {currentTab?.dashboardTab?.title}
+          {/* {currentTab?.dashboardTab?.title} */}
+          Dashboard
         </p>
       </div>
     </div>

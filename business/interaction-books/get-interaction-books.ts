@@ -9,6 +9,7 @@ export interface GetInteractionBooksQuery {
 export async function _getInteractionBooks(query: GetInteractionBooksQuery) {
   return await prisma.interactionBooks.findMany({
     where: {
+      deletedAt: null,
       userId: query.userId,
     },
     include: {

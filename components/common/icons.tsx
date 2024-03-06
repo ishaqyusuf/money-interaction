@@ -5,6 +5,7 @@ import {
   ChevronDown,
   ChevronRightIcon,
   ChevronsUpDown,
+  Loader2,
   Pencil,
   Plus,
   Slash,
@@ -14,7 +15,7 @@ import {
 export type IconType = keyof typeof Icons;
 export const Icons = {
   plus: Plus,
-
+  spinner: Loader2,
   edit: Pencil,
   delete: Trash,
   calendar: CalendarIcon,

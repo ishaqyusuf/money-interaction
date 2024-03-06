@@ -10,9 +10,9 @@ export default async function getDashboardData(slug, tab) {
   const components = (
     await prisma.dashboardComponents.findMany({
       where: {
+        deletedAt: null,
         dashboardTab: {
           slug: tab,
-
           permissions: {
             some: {
               bookAccess: {
@@ -27,7 +27,11 @@ export default async function getDashboardData(slug, tab) {
           include: {
             _count: {
               select: {
-                values: true,
+                values: {
+                  where: {
+                    deletedAt: null,
+                  },
+                },
               },
             },
           },
@@ -77,17 +81,14 @@ export default async function getDashboardData(slug, tab) {
           const analytics = await prisma.interactionAnalytics.findMany({
             where: {
               title: c.analyticNode,
+              deletedAt: null,
             },
           });
-          console.log(analytics);
 
-          const total = analytics
+          value = analytics
             .filter((s) => Number(s.value) >= 0)
             .map((s) => s.value)
             .reduce((a, b) => a + b, 0);
-          const count = analytics.length;
-
-          // if (c.analyticType == "Count") value = count;
 
           if (c.formField.dataType == "number" && c.formField.currency) {
             value = formatCurrency(value, c.formField.unit);

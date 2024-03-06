@@ -4,9 +4,7 @@ import { prisma } from "@/business/db";
 
 export async function getAutoOptions(fieldId) {
   const options = await prisma.interactionFormValue.findMany({
-    where: {
-      fieldId,
-    },
+    where: { deletedAt: null, fieldId },
   });
   const o = options.map((o) => {
     return {

@@ -28,6 +28,7 @@ import { PrimitiveDivProps } from "@radix-ui/react-dialog";
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import Btn from "@/components/common/btn";
 
 function BaseModal({
   children,
@@ -147,9 +148,12 @@ function Footer({
             </Button>
           )}
           {onSubmit && (
-            <Button onClick={() => modal?.startTransition(onSubmit)}>
+            <Btn
+              isLoading={modal?.loading}
+              onClick={() => modal?.startTransition(onSubmit)}
+            >
               {submitText}
-            </Button>
+            </Btn>
           )}
         </div>
       )}

@@ -1,7 +1,9 @@
 import { InteractionFormFields } from "@prisma/client";
 import { DashboardComponentType, FormFieldDataTypes } from "../type";
 
-export type IFormField = ReturnType<typeof transformFormField>;
+export type IFormField = ReturnType<
+  typeof transformFormField<InteractionFormFields>
+>;
 export function transformFormField<T>(data: T) {
   if (!data) data = {} as any;
   return {

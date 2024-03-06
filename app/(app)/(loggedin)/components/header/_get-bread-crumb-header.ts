@@ -9,10 +9,14 @@ export async function getBreadcrumbHeaderAction(bookSlug, formSchemaId) {
   const booksAccess = await prisma.interactionBookAccess.findMany({
     where: {
       userId: userId,
+      deletedAt: null,
     },
     include: {
       book: true,
       permissions: {
+        where: {
+          deletedAt: null,
+        },
         include: {
           bookForm: {
             include: {

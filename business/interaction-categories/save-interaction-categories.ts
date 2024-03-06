@@ -17,6 +17,7 @@ export async function _saveInteractionCategories(
   return (
     await prisma.bookCategory.findMany({
       where: {
+        deletedAt: null,
         title: {
           in: categories.map((c) => c.title),
         },
