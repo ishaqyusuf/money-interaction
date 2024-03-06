@@ -4,7 +4,7 @@ import { prisma } from "@/business/db";
 import { DashboardComponents } from "@prisma/client";
 
 export async function saveDashboardComponent(data: DashboardComponents) {
-  const { id, interactionBookId, ...rest } = data;
+  const { id, interactionBookId, dashboardTabId, formFieldId, ...rest } = data;
 
   const resp = id
     ? await prisma.dashboardComponents.update({
@@ -14,6 +14,11 @@ export async function saveDashboardComponent(data: DashboardComponents) {
         data: {
           ...rest,
           updatedAt: new Date(),
+          formField: {
+            connect: {
+              id: formFieldId,
+            },
+          },
         },
       })
     : await prisma.dashboardComponents.create({
@@ -24,7 +29,16 @@ export async function saveDashboardComponent(data: DashboardComponents) {
               id: interactionBookId,
             },
           },
-
+          dashboardTab: {
+            connect: {
+              id: dashboardTabId,
+            },
+          },
+          formField: {
+            connect: {
+              id: formFieldId,
+            },
+          },
           //   interactionBookId: 1,
         },
       });

@@ -13,10 +13,11 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { analyticTypes } from "../../data/analytic-types";
 import ControlledInput from "@/components/controls/controlled-input";
-import { saveDashboardComponent } from "@/business/dashboard/components/save-dashboard-component";
+import { saveDashboardComponent } from "@/business/dashboard/save-dashboard-component";
 import { useModal } from "@/components/templates/modal/provider";
 import { _revalidatePath } from "@/business/utils/revalidate-path";
 import dashboardData from "../../data/dashboard-data";
+import { toast } from "sonner";
 
 interface Props {
   type: DashboardComponentType;
@@ -30,21 +31,27 @@ export default function ComponentTabModal({ type, data }: Props) {
       analyticType: "",
       title: "",
       subTitle: "",
+      formFieldId: null,
       type,
       ...data.componentForm,
     },
   });
-  console.log(data);
+  // console.log(data);
   const [nodes, setNodes] = useState<ComponentNodes[]>([]);
   useEffect(() => {
     getDashboardNodes(data.bookSlug).then((resp) => {
-      console.log(resp);
+      // console.log(resp);
       setNodes(resp.nodes);
     });
   }, []);
   const modal = useModal();
   async function submit() {
     const data = form.getValues();
+    const formFieldId = nodes.find((n) => n.label === data.analyticNode)?.id;
+    form.setValue("formFieldId", formFieldId);
+    data.formFieldId = formFieldId;
+    return;
+    if (!formFieldId) toast.message("Invalid Analytic Field");
     const resp = await saveDashboardComponent(data as any);
     if (resp.id) {
       modal.close();
@@ -64,7 +71,7 @@ export default function ComponentTabModal({ type, data }: Props) {
           />
           <ControlledSelect
             control={form.control}
-            options={dashboardData.componentTypes}
+            options={dashboardData.componentTypes as any}
             name="type"
             label="Component Type"
           />

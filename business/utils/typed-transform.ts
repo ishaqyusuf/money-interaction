@@ -1,14 +1,26 @@
 import { InteractionFormFields } from "@prisma/client";
-import { FormFieldDataTypes } from "../type";
+import { DashboardComponentType, FormFieldDataTypes } from "../type";
 
 export type IFormField = ReturnType<typeof transformFormField>;
-export function transformFormField(
-  data: InteractionFormFields | undefined | null
-) {
+export function transformFormField<T>(data: T) {
   if (!data) data = {} as any;
-
   return {
     ...data,
-    dataType: data?.dataType as FormFieldDataTypes,
+
+    dataType: (data as any)?.dataType as FormFieldDataTypes,
   };
 }
+const transformer = {
+  dashboardComponent(data) {
+    return {
+      ...data,
+      type: data.type as DashboardComponentType,
+
+      // formField: transformFormField(data.formField),
+    };
+  },
+};
+// export function transformData<T>(data:T, key: )
+// {
+
+// }

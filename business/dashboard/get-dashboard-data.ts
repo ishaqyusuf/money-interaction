@@ -3,7 +3,7 @@
 import { formatCurrency } from "@/lib/utils";
 import { _authId } from "../auth/auth-session";
 import { prisma } from "../db";
-import { DashboardComponentType } from "../type";
+import { DashboardAnalyticType, DashboardComponentType } from "../type";
 import { transformFormField } from "../utils/typed-transform";
 
 export default async function getDashboardData(slug, tab) {
@@ -11,7 +11,8 @@ export default async function getDashboardData(slug, tab) {
     await prisma.dashboardComponents.findMany({
       where: {
         dashboardTab: {
-          slug,
+          slug: tab,
+
           permissions: {
             some: {
               bookAccess: {
@@ -22,13 +23,22 @@ export default async function getDashboardData(slug, tab) {
         },
       },
       include: {
-        formField: true,
+        formField: {
+          include: {
+            _count: {
+              select: {
+                values: true,
+              },
+            },
+          },
+        },
       },
     })
   ).map((tab) => {
     return {
       ...tab,
       type: tab.type as DashboardComponentType,
+      analyticType: tab.analyticType as DashboardAnalyticType,
       formField: transformFormField(tab.formField),
     };
   });
@@ -58,26 +68,39 @@ export default async function getDashboardData(slug, tab) {
       },
     });
   }
-  const cardComponents = Promise.all(
+  const cardComponents = await Promise.all(
     components
       .filter((c) => c.type == "Card")
       .map(async (c) => {
-        const analytics = await prisma.interactionAnalytics.findMany({
-          where: {
-            title: c.analyticNode,
-          },
-        });
-        const total = analytics
-          .filter((s) => Number(s.value) >= 0)
-          .map((s) => s.value)
-          .reduce((a, b) => a + b, 0);
-        let value: any = total;
-        if (c.formField.dataType == "number" && c.formField.currency) {
-          value = formatCurrency(value, c.formField.unit);
+        let value: any = 0;
+        if (c.analyticType == "Sum") {
+          const analytics = await prisma.interactionAnalytics.findMany({
+            where: {
+              title: c.analyticNode,
+            },
+          });
+          console.log(analytics);
+
+          const total = analytics
+            .filter((s) => Number(s.value) >= 0)
+            .map((s) => s.value)
+            .reduce((a, b) => a + b, 0);
+          const count = analytics.length;
+
+          // if (c.analyticType == "Count") value = count;
+
+          if (c.formField.dataType == "number" && c.formField.currency) {
+            value = formatCurrency(value, c.formField.unit);
+          }
+        }
+        if (c.analyticType == "Count") {
+          value = c.formField._count.values;
+          // console.log(value);
         }
         return {
           component: c,
           value,
+          comment: "",
         };
       })
   );
